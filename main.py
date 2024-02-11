@@ -87,4 +87,4 @@ async def meme(ctx):
         picture = discord.File(f)
     await ctx.send(file=picture)
 
-bot.run('MTE5ODk0NDM5MjA1MzAwNjM5Ng.GnX1l-.P5z0PsO7NhFDgdrEl5xFhoIVeWOySFUtviH8ys')
+bot.run('token')
