@@ -13,8 +13,16 @@ intents = discord.Intents.default()
 intents.members = True
 intents.message_content = True
 
-bot = commands.Bot(command_prefix='?', description=description, intents=intents)
+bot = commands.Bot(command_prefix='hey bot, ', description=description, intents=intents)
 
+def random_meme():
+    num = random.randint(1,3)
+    if num == 1:
+        return 'images/8ffn1j.jpg'
+    elif num == 2:
+        return 'images/8ffn3t.jpg'
+    else:
+        return 'images/8ffn9d.jpg'
 
 @bot.event
 async def on_ready():
@@ -69,11 +77,14 @@ async def cool(ctx):
     if ctx.invoked_subcommand is None:
         await ctx.send(f'No, {ctx.subcommand_passed} is not cool')
 
-
 @cool.command(name='bot')
 async def _bot(ctx):
-    """Is the bot cool?"""
     await ctx.send('Yes, the bot is cool.')
 
+@bot.command()
+async def meme(ctx):
+    with open(random_meme(), 'rb') as f:
+        picture = discord.File(f)
+    await ctx.send(file=picture)
 
-bot.run('token')
+bot.run('MTE5ODk0NDM5MjA1MzAwNjM5Ng.GnX1l-.P5z0PsO7NhFDgdrEl5xFhoIVeWOySFUtviH8ys')
