@@ -4,16 +4,27 @@ import discord
 from discord.ext import commands
 import random
 
-description = '''An example bot to showcase the discord.ext.commands extension
-module.
-
-There are a number of utility commands being showcased here.'''
+description = '''It's Trusted_Employment's humble little discord bot.'''
+prefix = "$"
 
 intents = discord.Intents.default()
 intents.members = True
 intents.message_content = True
 
-bot = commands.Bot(command_prefix='hey bot, ', description=description, intents=intents)
+bot = commands.Bot(command_prefix=prefix, description=description, intents=intents)
+
+tutorials = {
+    "Flower Pot":"PLACEHOLDER TEXT A",
+    "Toy Car":"PLACEHOLDER TEXT B",
+    "Toy Gun":"PLACEHOLDER TEXT C",
+    "Actual Gun":"Required:\n- Leftover Cardboard\n- M1903 Springfield\n\nHow To:\n- Attach Cardboard Onto M1903 Springfield\n- You now have an Eco Friendly M1903 Springfield!"
+}
+materials = {
+    "Flower Pot":"bottle",
+    "Toy Car":"bottle",
+    "Toy Gun":"cardboard",
+    "Actual Gun":"cardboard"
+}
 
 def random_meme():
     num = random.randint(1,3)
@@ -69,22 +80,50 @@ async def joined(ctx, member: discord.Member):
 
 
 @bot.group()
-async def cool(ctx):
-    """Says if a user is cool.
-
-    In reality this just checks if a subcommand is being invoked.
-    """
-    if ctx.invoked_subcommand is None:
-        await ctx.send(f'No, {ctx.subcommand_passed} is not cool')
-
-@cool.command(name='bot')
-async def _bot(ctx):
-    await ctx.send('Yes, the bot is cool.')
+async def cool(ctx, name):
+    if name == "Ranu" or name == "ranu":
+        await ctx.send("Yes, My lovely creator is cool.")
+    elif name == "Bot" or name == "bot":
+        await ctx.send("Yes, I am lovely.")
+    else:
+        rand = random.randint(1,2)
+        if rand == 1:
+            await ctx.send(f'who da fock is {name}')
+        elif rand == 2:
+            await ctx.send(f'No, {name} is not cool.')
 
 @bot.command()
 async def meme(ctx):
     with open(random_meme(), 'rb') as f:
         picture = discord.File(f)
     await ctx.send(file=picture)
+
+@bot.command()
+async def tutorial(ctx, key):
+    if key in tutorials:
+        await ctx.send(tutorials[key])
+    else:
+        await ctx.send(f'\'{key}\' not found.\nIf the recipe you are looking for consists of 2 or more words, try typing:\n{prefix}tutorial \"Word1 Word2\"')
+
+@bot.command()
+async def material(ctx, key):
+    string = f'Recipes using \'{key}\':\n'
+    objs = 0
+    for m in materials:
+        if materials[m] == key:
+            string += f'> - {m}\n'
+            objs += 1
+    await ctx.send(f'{string}\n({objs} Found)')
+
+@bot.command()
+async def listrecipes(ctx):
+    string = 'All available recipes:\n'
+    for recipe in tutorials:
+        string += f'> - {recipe}\n'
+    await ctx.send(string)
+
+@bot.command()
+async def cmdlist(ctx):
+    await ctx.send("Commands List:\n\nCasual Commands:\n> - add [int1] [int2] -adds two numbers together\n> - roll [ndn] -rolls a dice\n> - choose [choice1] [choice2]... -this one is self-explainatory\n> - repeat [times] [message] -repeats messages multiple times\n> - meme -shows a random meme\n\nHomework Related Commands:\n> - tutorial [recipe] -shows the tutorial of the given recipe (INDEV)\n> - material [material] -shows how many recipes have the designated material (INDEV)\n> - listrecipes -lists all available recipes (INDEV)")
 
 bot.run('token')
