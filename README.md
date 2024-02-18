@@ -8,8 +8,8 @@ FEATURES:
 - weird commands
 - confusing code
 - 4 of my own commands
-- 8 functional commands
 - 4 other built-in commands
+- total of 8 functional commands
 - probably a really unoptimized code
 - $ as a prefix because i have no idea which one to use
 
